@@ -1,16 +1,12 @@
 package com.ecommerce.microcommerce.controller;
 
 import com.ecommerce.microcommerce.entity.Product;
-import com.ecommerce.microcommerce.exceptions.productNotFoundException;
+import com.ecommerce.microcommerce.exceptions.FreeProductException;
+import com.ecommerce.microcommerce.exceptions.ProductNotFoundException;
 import com.ecommerce.microcommerce.repository.ProductRepository;
-import com.fasterxml.jackson.databind.ser.FilterProvider;
-import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
-import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -44,7 +40,7 @@ public class ProductController {
     @GetMapping("/product/{id}")
     public Product showOneProduct(@PathVariable int id){
         Product product = productRepository.findById(id);
-        if(product==null) throw new productNotFoundException("product with id=" + id +" not found");
+        if(product==null) throw new ProductNotFoundException("product with id=" + id +" not found");
             return product;
     }
 
@@ -63,12 +59,14 @@ public class ProductController {
 
 
     @PostMapping("/product")
-    public ResponseEntity<Void> addProduct(@Valid @RequestBody Product product){
+    public ResponseEntity<Void> addProduct(@Valid @RequestBody Product product) {
         Product productAdded = productRepository.save(product);
-        // if product is empty => return http code : 204 No content
         if(productAdded == null){
+            if(productAdded.getPrice() == 0) throw new FreeProductException("Can't add free product");
             return ResponseEntity.noContent().build();
         }
+
+
         //declaration of the class instance URI
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()

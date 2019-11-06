@@ -21,7 +21,7 @@ public class Product {
     private int id;
     @Length(min=3, max=25, message="Nom trop long ou trop court")
     private String name;
-    @Min(value=1)
+    //@Min(value=1)
     private int price;
 
     @JsonIgnore
