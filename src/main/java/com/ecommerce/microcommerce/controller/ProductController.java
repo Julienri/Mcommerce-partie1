@@ -27,8 +27,7 @@ public class ProductController {
 
     @GetMapping("/product")
     public List<Product> allProducts() {
-        List<Product> products = productRepository.findAll();
-        return products;
+        return productRepository.findAll();
     }
         /*// filter with a given bean "serializeAllExcept("what we want")". the opposite is "filterOutAllExcept("")"
         SimpleBeanPropertyFilter myFilter = SimpleBeanPropertyFilter.serializeAllExcept("purchasePrice","marge");
@@ -54,7 +53,7 @@ public class ProductController {
     }*/
 
 
-    //partie 1
+    //part 1
     @GetMapping("/adminProduct")
     public String ShowMarge(){
         List<Product> products = productRepository.findAll();

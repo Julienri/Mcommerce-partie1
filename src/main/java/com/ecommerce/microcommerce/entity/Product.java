@@ -2,6 +2,7 @@ package com.ecommerce.microcommerce.entity;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
@@ -25,7 +26,6 @@ public class Product {
     // If there are several values to ignore, we can use : JsonIgnore(value = {"purchasePrice", "id"})
     @JsonIgnore
     private int purchasePrice;
-
 
     public Product() {
     }
