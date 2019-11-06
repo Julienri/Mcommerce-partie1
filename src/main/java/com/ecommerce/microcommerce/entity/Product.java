@@ -23,8 +23,9 @@ public class Product {
     @Min(value=1)
     private int price;
     // If there are several values to ignore, we can use : JsonIgnore(value = {"purchasePrice", "id"})
-    // For one value : @JsonIgnore
+    @JsonIgnore
     private int purchasePrice;
+
 
     public Product() {
     }
@@ -35,9 +36,14 @@ public class Product {
         this.price = price;
         this.purchasePrice = purchasePrice;
     }
-    /*@Override
+    @JsonIgnore
+    public int getMarge() {
+        return this.price - this.purchasePrice;
+    }
+
+    @Override
     public String toString(){
         return "Product{" + " id=" + id + ", name='"+ name + '\'' +
                 ", price=" + price+ '}';
-    }*/
+    }
 }

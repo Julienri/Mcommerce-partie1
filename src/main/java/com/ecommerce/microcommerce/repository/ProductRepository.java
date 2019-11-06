@@ -10,9 +10,11 @@ import java.util.List;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
+
     Product findById(int id);
     List<Product> findByPriceGreaterThan(int limitPrice);
-    //List<Product> findByNameLike(String search);
+
+    List<Product> findByNameLike(String search);
 
     // à revoir
     // @Query("SELECT id, name, price, purchasePrice FROM Product p WHERE p.price > :limitPrice")

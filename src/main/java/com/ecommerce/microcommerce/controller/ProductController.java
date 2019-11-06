@@ -6,8 +6,8 @@ import com.ecommerce.microcommerce.repository.ProductRepository;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJacksonValue;
@@ -26,10 +26,12 @@ public class ProductController {
     private ProductRepository productRepository;
 
     @GetMapping("/product")
-    public MappingJacksonValue allProducts(){
+    public List<Product> allProducts() {
         List<Product> products = productRepository.findAll();
-        // filter with a given bean "serializeAllExcept("what we want")". the opposite is "filterOutAllExcept("")"
-        SimpleBeanPropertyFilter myFilter = SimpleBeanPropertyFilter.serializeAllExcept("purchasePrice");
+        return products;
+    }
+        /*// filter with a given bean "serializeAllExcept("what we want")". the opposite is "filterOutAllExcept("")"
+        SimpleBeanPropertyFilter myFilter = SimpleBeanPropertyFilter.serializeAllExcept("purchasePrice","marge");
         // apply the filter only on the bean named "myDynamicFilter",  to the desired entity.
         FilterProvider ourFilters = new SimpleFilterProvider().addFilter("myDynamicFilter", myFilter);
         //convert in MappingJackson == Product with filters, to access to all methods
@@ -37,8 +39,8 @@ public class ProductController {
         //apply those filters
         filterProducts.setFilters(ourFilters);
         return filterProducts;
-    }
-    @ApiOperation(value ="if there is a product on this id, Get product with this id")
+    }*/
+
     @GetMapping("/product/{id}")
     public Product showOneProduct(@PathVariable int id){
         Product product = productRepository.findById(id);
@@ -46,15 +48,23 @@ public class ProductController {
             return product;
     }
 
-    @GetMapping("test/product/{limitPrice}")
+    /*@GetMapping("test/product/{limitPrice}")
     public List<Product> RequestTest(@PathVariable int limitPrice){
         return productRepository.findByPriceGreaterThan(limitPrice);
-    }
-    /*@GetMapping("test/product/{search}")
-    public List<Product> requestTestName(@PathVariable String search){
-        return productRepository.findByNameLike("%"+ search+"%");
     }*/
 
+
+    //partie 1
+    @GetMapping("/adminProduct")
+    public String ShowMarge(){
+        List<Product> products = productRepository.findAll();
+        String marge = "{\r\n";
+        for (Product product : products){
+            marge += "\"" + product.toString() + "\":" + product.getMarge() + ",\r\n";
+        }
+        marge += "}";
+        return marge;
+    }
 
 
     @PostMapping("/product")

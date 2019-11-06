@@ -17,8 +17,8 @@ public class SwaggerConfig {
                 .select()
                 // "apis" permit to filter documentation
                 .apis(RequestHandlerSelectors.basePackage("com.ecommerce.microcommerce"))
-                // only accept URI beginning by "/product"
-                .paths(PathSelectors.regex("/product.*"))
+                // only accept URI beginning by "/product" with regex
+                .paths(PathSelectors.any())
                 .build();
 
     }
