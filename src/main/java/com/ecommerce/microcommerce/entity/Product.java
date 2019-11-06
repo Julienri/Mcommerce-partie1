@@ -23,7 +23,7 @@ public class Product {
     private String name;
     @Min(value=1)
     private int price;
-    // If there are several values to ignore, we can use : JsonIgnore(value = {"purchasePrice", "id"})
+
     @JsonIgnore
     private int purchasePrice;
 
@@ -44,6 +44,6 @@ public class Product {
     @Override
     public String toString(){
         return "Product{" + " id=" + id + ", name='"+ name + '\'' +
-                ", price=" + price+ '}';
+                ", price=" + price + '}';
     }
 }

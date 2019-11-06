@@ -25,9 +25,10 @@ public class ProductController {
     @Autowired
     private ProductRepository productRepository;
 
+    //Part 2
     @GetMapping("/product")
     public List<Product> allProducts() {
-        return productRepository.findAll();
+        return productRepository.findAllProductsSorted();
     }
         /*// filter with a given bean "serializeAllExcept("what we want")". the opposite is "filterOutAllExcept("")"
         SimpleBeanPropertyFilter myFilter = SimpleBeanPropertyFilter.serializeAllExcept("purchasePrice","marge");
@@ -46,11 +47,6 @@ public class ProductController {
         if(product==null) throw new productNotFoundException("product with id=" + id +" not found");
             return product;
     }
-
-    /*@GetMapping("test/product/{limitPrice}")
-    public List<Product> RequestTest(@PathVariable int limitPrice){
-        return productRepository.findByPriceGreaterThan(limitPrice);
-    }*/
 
 
     //part 1
